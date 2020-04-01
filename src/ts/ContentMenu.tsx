@@ -1,77 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { Menu, Dropdown } from 'antd';
+const { SubMenu } = Menu;
 import '../css/ContentMenu.css';
 
 function ContextMenu(props: any) {
 
-  const [visible, setVisible] = useState(false);
-  const [submenuVisible, setSubmenuVisible] = useState(false);
-  const [style, setStyle] = useState({});
-  const [index, setIndex] = useState(0);
 
-
-  useEffect(() => {
-    document.addEventListener('contextmenu', _handleContextMenu);
-    document.addEventListener('click', _handleClick);
-    document.addEventListener('scroll', _handleScroll);
-
-    return () => {
-      document.removeEventListener('contextmenu', _handleContextMenu);
-      document.removeEventListener('click', _handleClick);
-      document.removeEventListener('scroll', _handleScroll);
-    }
-  })
-
-  const _handleContextMenu = (event: any) => {
-    // 阻止右击默认事件
-    event.preventDefault();
-    // 设置菜单显示
-    setVisible(true);
-    const clickX = event.clientX;
-    const clickY = event.clientY;
-
-    setStyle({
-      top: clickY + 5 + 'px',
-      left: clickX + 5 + 'px'
-    })
-  };
-
-  const _handleClick = (event: any) => {
-    const wasOutside = !(event.target.contains === event.target.root);
-
-    if (wasOutside && visible) setVisible(false);
-    if (submenuVisible) setSubmenuVisible(false);
-  };
-
-  const _handleScroll = () => {
-    if (visible) setVisible(false);
-  };
-
-  const mouseEnter = (event:any) => {
-    setIndex(1);
+  const clickDom = (index:any) => {
+    console.log(index);
+    console.log('复制')
   }
 
-  const mouseLeave = (event:any) => {
-    setIndex(0);
-  }
+  // 菜单dom结构
+  const menu = (
+    <Menu>
+    <Menu.Item key='1' disabled>删除（禁止选中）</Menu.Item>
+    <Menu.Item onClick={()=>clickDom(123)}>复制</Menu.Item>
+    <Menu.Divider/>
+    <SubMenu title="二级菜单">
+      <Menu.Item>删除</Menu.Item>
+      <Menu.Item>复制</Menu.Item>
+    </SubMenu>
+    <SubMenu title="禁止选中" disabled>
+      <Menu.Item>5d menu item</Menu.Item>
+      <Menu.Item>6th menu item</Menu.Item>
+    </SubMenu>
+  </Menu>
+  );
 
-  return (visible || null) &&
-    <div className="contextMenu" style={style}>
-      <div className="contextMenu--option" onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-        删除
-        <div className={`submenuBox ${index === 1 ? 'active' : '' }`}>
-          <div className="submenu">删除1</div>
-          <div className="submenu">删除2</div>
-          <div className="submenu">删除3</div>
-        </div>
-      </div>
-      <div className="contextMenu--option">复制</div>
-      <div className="contextMenu--option">粘贴</div>
-      <div className="contextMenu--option contextMenu--option__disabled">不可选中</div>
-      <div className="contextMenu--option">设置</div>
-      <div className="contextMenu--separator" />
-      <div className="contextMenu--option">关于</div>
+  return true &&
+    <Dropdown overlay={menu} trigger={['contextMenu']}>
+      <div
+        className="site-dropdown-context-menu"
+        style={{
+          textAlign: 'center',
+          height: 200,
+          lineHeight: '200px',
+        }}
+      >
+        Right Click on here
     </div>
-
+    </Dropdown>
 }
+
+
 
 export default ContextMenu;
