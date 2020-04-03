@@ -1,9 +1,0 @@
-.site-dropdown-context-menu {
-    background: #f7f7f7;
-    color: #777;
-}
-
-[data-theme="dark"] .site-dropdown-context-menu {
-    background: #141414;
-    color: rgba(255, 255, 255, .65);
-}

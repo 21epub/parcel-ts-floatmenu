@@ -1,4 +1,4 @@
 {
-  "sourcePath": "./src/floatmenuTest",
+  "sourcePath": "./src/floatmenu",
   "destPath": "./staticfs/common/js/v2_edit/ui/"
 }
