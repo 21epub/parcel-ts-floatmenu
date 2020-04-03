@@ -32,6 +32,7 @@
 }
 
 .contextMenu--option:hover {
+    cursor: pointer;
     background: linear-gradient(to top, #555, #333);
     color: white;
 }
@@ -64,6 +65,7 @@
 }
 
 .submenu:hover {
+    cursor: pointer;
     background: linear-gradient(to top, #555, #333);
     color: white;
 }

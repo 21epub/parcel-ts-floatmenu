@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../css/ContentMenu.css';
+import $ from 'jquery';
+import {batch_remove_overlays} from 'v2_edit/page/util/util'
+
+
 
 function ContextMenu(props: any) {
 
@@ -7,6 +11,7 @@ function ContextMenu(props: any) {
   const [submenuVisible, setSubmenuVisible] = useState(false);
   const [style, setStyle] = useState({});
   const [index, setIndex] = useState(0);
+  const [eventTarget, setEventTarget] = useState();
 
 
   useEffect(() => {
@@ -23,10 +28,9 @@ function ContextMenu(props: any) {
   const _handleContextMenu = (event: any) => {
     // 阻止右击默认事件
     event.preventDefault();
-    // 阻止点击穿透
-    event.stopPropagation();
-    console.log(event);
-    if(event.target.className == 'paragraph_opvqF4'){
+    // 模拟点击聚焦此元素
+    event.target.click(); 
+    if(event.target.className == 'paragraph_opvqF4' || event.target.className == 'linkblock_qBUos4'){
       // 设置菜单显示
       setVisible(true);
       const clickX = event.clientX;
@@ -42,7 +46,6 @@ function ContextMenu(props: any) {
 
   const _handleClick = (event: any) => {
     const wasOutside = !(event.target.contains === event.target.root);
-
     if (wasOutside && visible) setVisible(false);
     if (submenuVisible) setSubmenuVisible(false);
   };
@@ -59,15 +62,17 @@ function ContextMenu(props: any) {
     setIndex(0);
   }
 
+  const onDelete = () => {
+    var e = jQuery.Event("keydown");//模拟一个键盘事件
+    e.keyCode = 8;//keyCode=8是back，46是delete
+    e.which = 8;
+    $(".linkblock_qBUos4").trigger(e);//模拟按下删除键
+  }
+
   return (visible || null) &&
     <div className="contextMenu" style={style}>
-      <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(1)} onMouseLeave={mouseLeave}>
+      <div className="contextMenu--option" onClick={()=>onDelete()}>
         删除
-        <div className={`submenuBox ${index === 1 ? 'active' : '' }`}>
-          <div className="submenu">删除1</div>
-          <div className="submenu">删除2</div>
-          <div className="submenu">删除3</div>
-        </div>
       </div>
       <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(2)} onMouseLeave={mouseLeave}>
         复制

@@ -27312,6 +27312,7 @@ div.ant-typography-edit-content.ant-typography-rtl {
 }
 
 .contextMenu--option:hover {
+    cursor: pointer;
     background: linear-gradient(to top, #555, #333);
     color: white;
 }
@@ -27344,6 +27345,7 @@ div.ant-typography-edit-content.ant-typography-rtl {
 }
 
 .submenu:hover {
+    cursor: pointer;
     background: linear-gradient(to top, #555, #333);
     color: white;
 }
