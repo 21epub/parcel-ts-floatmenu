@@ -39211,10 +39211,6 @@ function ContextMenu(props) {
       index = _d[0],
       setIndex = _d[1];
 
-  var _e = (0, _react.useState)(),
-      eventTarget = _e[0],
-      setEventTarget = _e[1];
-
   (0, _react.useEffect)(function () {
     document.addEventListener('contextmenu', _handleContextMenu);
     document.addEventListener('click', _handleClick);
@@ -39231,6 +39227,7 @@ function ContextMenu(props) {
     event.preventDefault(); // 模拟点击聚焦此元素
 
     event.target.click();
+    console.log(props);
 
     if (event.target.className == 'paragraph_opvqF4' || event.target.className == 'linkblock_qBUos4') {
       // 设置菜单显示
@@ -39245,13 +39242,14 @@ function ContextMenu(props) {
   };
 
   var _handleClick = function _handleClick(event) {
-    var wasOutside = !(event.target.contains === event.target.root);
-    if (wasOutside && visible) setVisible(false);
+    console.log('点击其他页面时隐藏菜单');
+    if (visible) setVisible(false);
     if (submenuVisible) setSubmenuVisible(false);
   };
 
   var _handleScroll = function _handleScroll() {
     if (visible) setVisible(false);
+    if (submenuVisible) setSubmenuVisible(false);
   };
 
   var mouseEnter = function mouseEnter(index) {
@@ -39271,75 +39269,56 @@ function ContextMenu(props) {
     (0, _jquery.default)(".linkblock_qBUos4").trigger(e); //模拟按下删除键
   };
 
-  return (visible || null) && _react.default.createElement("div", {
-    className: "contextMenu",
-    style: style
+  return (visible || null) && // <div className="contextMenu" style={style}>
+  _react.default.createElement("div", {
+    style: "width: 160px;"
   }, _react.default.createElement("div", {
-    className: "contextMenu--option",
+    className: "contextMenu--option ia-menu-item",
     onClick: function onClick() {
       return onDelete();
     }
-  }, "\u5220\u9664"), _react.default.createElement("div", {
-    className: "contextMenu--option",
-    onMouseEnter: function onMouseEnter() {
-      return mouseEnter(2);
-    },
-    onMouseLeave: mouseLeave
-  }, "\u590D\u5236", _react.default.createElement("div", {
-    className: "submenuBox " + (index === 2 ? 'active' : '')
-  }, _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u590D\u52361"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u590D\u52362"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u590D\u52363"))), _react.default.createElement("div", {
-    className: "contextMenu--option",
-    onMouseEnter: function onMouseEnter() {
-      return mouseEnter(3);
-    },
-    onMouseLeave: mouseLeave
-  }, "\u7C98\u8D34", _react.default.createElement("div", {
-    className: "submenuBox " + (index === 3 ? 'active' : '')
-  }, _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u7C98\u8D341"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u7C98\u8D342"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u7C98\u8D343"))), _react.default.createElement("div", {
-    className: "contextMenu--option contextMenu--option__disabled"
-  }, "\u4E0D\u53EF\u9009\u4E2D"), _react.default.createElement("div", {
-    className: "contextMenu--option",
-    onMouseEnter: function onMouseEnter() {
-      return mouseEnter(4);
-    },
-    onMouseLeave: mouseLeave
-  }, "\u8BBE\u7F6E", _react.default.createElement("div", {
-    className: "submenuBox " + (index === 4 ? 'active' : '')
-  }, _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u8BBE\u7F6E1"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u8BBE\u7F6E2"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u8BBE\u7F6E3"))), _react.default.createElement("div", {
-    className: "contextMenu--separator"
-  }), _react.default.createElement("div", {
-    className: "contextMenu--option",
-    onMouseEnter: function onMouseEnter() {
-      return mouseEnter(5);
-    },
-    onMouseLeave: mouseLeave
-  }, "\u5173\u4E8E", _react.default.createElement("div", {
-    className: "submenuBox " + (index === 5 ? 'active' : '')
-  }, _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u5173\u4E8E1"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u5173\u4E8E2"), _react.default.createElement("div", {
-    className: "submenu"
-  }, "\u5173\u4E8E3"))));
+  }, _react.default.createElement("span", {
+    className: "menu-action"
+  }, "\u5220\u9664")));
+  {
+    /* <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(2)} onMouseLeave={mouseLeave}>
+    复制
+    <div className={`submenuBox ${index === 2 ? 'active' : '' }`}>
+      <div className="submenu">复制1</div>
+      <div className="submenu">复制2</div>
+      <div className="submenu">复制3</div>
+    </div>
+    </div>
+    <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(3)} onMouseLeave={mouseLeave}>
+    粘贴
+    <div className={`submenuBox ${index === 3 ? 'active' : '' }`}>
+      <div className="submenu">粘贴1</div>
+      <div className="submenu">粘贴2</div>
+      <div className="submenu">粘贴3</div>
+    </div>
+    </div>
+    <div className="contextMenu--option contextMenu--option__disabled">不可选中</div>
+    <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(4)} onMouseLeave={mouseLeave}>
+    设置
+    <div className={`submenuBox ${index === 4 ? 'active' : '' }`}>
+      <div className="submenu">设置1</div>
+      <div className="submenu">设置2</div>
+      <div className="submenu">设置3</div>
+    </div>
+    </div>
+    <div className="contextMenu--separator" />
+    <div className="contextMenu--option" onMouseEnter={()=>mouseEnter(5)} onMouseLeave={mouseLeave}>
+    关于
+    <div className={`submenuBox ${index === 5 ? 'active' : '' }`}>
+      <div className="submenu">关于1</div>
+      <div className="submenu">关于2</div>
+      <div className="submenu">关于3</div>
+    </div>
+    </div> */
+  }
+  {
+    /* </div> */
+  }
 }
 
 var _default = ContextMenu;
@@ -39390,7 +39369,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52049" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59225" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
