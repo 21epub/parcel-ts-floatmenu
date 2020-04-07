@@ -1,10 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import 'antd/dist/antd.css';
-import ContextMenu from './ts/ContentMenu'
+import FloatMenu from './floatmenu/ts/floatmenu'
 
 
 ReactDOM.render(
-  <ContextMenu/>,
+  <FloatMenu/>,
   document.querySelector('#floatmenu'),
 );
