@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import '../css/floatmenu.module.css'
 
 function ContextMenu(props: any) {
 
@@ -65,7 +65,7 @@ function ContextMenu(props: any) {
   const MenuItem = (items) => {
     return (
       <div style={{width:'160px',position:'relative'}}>
-        <div className="contextMenu--option ia-menu-item" onClick={()=>onClick(items.mid)}>
+        <div className="contextMenu--option" onClick={()=>onClick(items.mid)}>
           <span className="menu-action">{items.text}</span>
         </div>
       </div>
@@ -73,7 +73,7 @@ function ContextMenu(props: any) {
   }
 
   return (visible || null) &&
-    <div className="contextMenu ia-menu" style={style} onMouseLeave={hideMenu}>
+    <div className="contextMenu" style={style} onMouseLeave={hideMenu}>
       <MenuItem text={'删除'} mid={'deleteDom'}/>
     </div>
 }
