@@ -4,8 +4,9 @@ import '../css/floatmenu.module.css'
 function ContextMenu(props: any) {
 
   const [visible, setVisible] = useState(false);
+  const [display, setDisplay] = useState({});
   const [style, setStyle] = useState({});
-
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     document.addEventListener('contextmenu', _handleContextMenu);
@@ -50,6 +51,8 @@ function ContextMenu(props: any) {
         e.which = 8;
         $(event.target).trigger(e);//模拟按下删除键
         break;
+      case 'copyDom': break;
+      case 'more': break;
       default:  break;
     }
     // 设置点击后floatmenu隐藏
@@ -57,16 +60,24 @@ function ContextMenu(props: any) {
   }
 
   const hideMenu = () => {
-    // 离开右键菜单时隐藏菜单
+    // 离开右键菜单时隐藏主菜单
     if (visible) setVisible(false);
   }
+  
+  const showSubMenu = (index:any) => {
+    setIndex(index);
+  }
+  const hideSubMenu = (index:any) => {
+    setIndex(index);
+  }
 
-  // 一级菜单
-  const MenuItem = (items) => {
+  // 可嵌套多级菜单
+  const Menu = (items) => {
     return (
       <div style={{width:'160px',position:'relative'}}>
-        <div className="contextMenu--option" onClick={()=>onClick(items.mid)}>
+        <div className="contextMenu--option" onClick={()=>onClick(items.mid)} onMouseEnter={items.subMenu? ()=>showSubMenu(items.subMenuNum):null} onMouseLeave={items.subMenu? ()=>hideSubMenu(items.subMenuNum-1):null}>
           <span className="menu-action">{items.text}</span>
+          {items.subMenu}
         </div>
       </div>
     )
@@ -74,7 +85,20 @@ function ContextMenu(props: any) {
 
   return (visible || null) &&
     <div className="contextMenu" style={style} onMouseLeave={hideMenu}>
-      <MenuItem text={'删除'} mid={'deleteDom'}/>
+      <Menu text={'删除'} mid={'deleteDom'}/>
+      <Menu text={'更多'} mid={'moreDom'} subMenuNum={2}
+        subMenu={
+          <div className={`subMenu contextMenu ${index >= 2 ? 'active' : '' }`}>
+            <Menu text={'复制'} mid={'copyDom'}/>
+            <Menu text={'更多'} mid={'pashDom'} subMenuNum={3}
+              subMenu={
+                <div className={`subMenu contextMenu ${index >= 3 ? 'active' : '' }`}>
+                  <Menu text={'拷贝'} mid={'copyDom'}/>
+                  <Menu text={'删除'} mid={'deleteDom'}/>
+                </div>
+            }/>
+          </div>
+      }/>
     </div>
 }
 
